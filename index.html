@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zalenca Technologies — Engineering the AI-Powered Future of Business</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300&family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════ */
+:root {
+  --bg0:#010409;--bg1:#040c18;--bg2:#071224;--bg3:#0a1830;
+  --blue:#1d4ed8;--blue-b:#3b6ef8;--blue-g:rgba(29,78,216,.22);
+  --cyan:#06b6d4;--cyan-d:rgba(6,182,212,.12);
+  --white:#f1f5ff;--g400:#64748b;--g300:#94a3b8;--g200:#cbd5e1;
+  --border:rgba(29,78,216,.14);--border-b:rgba(29,78,216,.38);
+  --font-h:'Outfit',sans-serif;
+  --font-b:'Plus Jakarta Sans',sans-serif;
+  --font-m:'JetBrains Mono',monospace;
+  --r4:4px;--r8:8px;--r12:12px;--r16:16px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg0);color:var(--white);
+  font-family:var(--font-b);font-size:16px;line-height:1.7;
+  overflow-x:hidden;cursor:none;
+}
+
+/* ── CURSOR ── */
+#cur,#cur-r{
+  position:fixed;border-radius:50%;pointer-events:none;
+  z-index:9999;transform:translate(-50%,-50%);
+}
+#cur{width:9px;height:9px;background:var(--cyan);transition:width .15s,height .15s}
+#cur-r{width:32px;height:32px;border:1px solid rgba(6,182,212,.5);transition:all .18s ease}
+
+/* ── NEURAL BG ── */
+#nbg{position:fixed;inset:0;z-index:0;opacity:.3}
+
+/* ── SCANLINES ── */
+body::after{
+  content:'';position:fixed;inset:0;z-index:1002;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.025) 2px,rgba(0,0,0,.025) 4px);
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:700;height:66px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 52px;
+  background:rgba(1,4,9,.88);backdrop-filter:blur(28px);
+  border-bottom:1px solid var(--border);
+  transition:background .3s;
+}
+.nl{display:flex;align-items:center;gap:11px;text-decoration:none}
+.lsvg{width:32px;height:36px}
+.lt{font-family:var(--font-h);font-size:15px;font-weight:800;letter-spacing:1.5px;color:var(--white)}
+.lt span{color:var(--cyan)}
+.nlinks{display:flex;gap:30px;list-style:none}
+.nlinks a{
+  font-family:var(--font-m);font-size:11px;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--g300);text-decoration:none;
+  transition:color .2s;position:relative;
+}
+.nlinks a::after{
+  content:'';position:absolute;bottom:-3px;left:0;
+  width:0;height:1px;background:var(--cyan);transition:width .3s;
+}
+.nlinks a:hover{color:var(--cyan)}
+.nlinks a:hover::after{width:100%}
+.ncta{
+  font-family:var(--font-m)!important;font-size:11px!important;
+  letter-spacing:1.5px;text-transform:uppercase;
+  background:transparent!important;border:1px solid var(--cyan)!important;
+  color:var(--cyan)!important;padding:8px 20px;border-radius:var(--r4);
+  transition:all .3s!important;
+}
+.ncta:hover{background:var(--cyan)!important;color:var(--bg0)!important;box-shadow:0 0 22px rgba(6,182,212,.4)!important}
+.ncta::after{display:none!important}
+
+/* ── SECTIONS / CONTAINER ── */
+section{position:relative;z-index:2}
+.ctr{max-width:1200px;margin:0 auto;padding:0 52px}
+.stag{
+  font-family:var(--font-m);font-size:11px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--cyan);
+  display:flex;align-items:center;gap:10px;margin-bottom:14px;
+}
+.stag::before{content:'';width:18px;height:1px;background:var(--cyan)}
+h2{
+  font-family:var(--font-h);font-weight:800;
+  font-size:clamp(28px,3.5vw,48px);letter-spacing:-1px;
+  line-height:1.08;margin-bottom:18px;
+}
+h3{font-family:var(--font-h);font-size:16px;font-weight:700;letter-spacing:.3px;margin-bottom:9px}
+.sdesc{font-size:16px;color:var(--g300);font-weight:300;line-height:1.9;max-width:580px}
+
+/* ══ HERO ══ */
+#hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:80px 0 60px;overflow:hidden;
+}
+.hgrid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.hbadge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(6,182,212,.07);border:1px solid rgba(6,182,212,.22);
+  border-radius:var(--r4);padding:6px 16px;
+  font-family:var(--font-m);font-size:11px;letter-spacing:2px;
+  color:var(--cyan);text-transform:uppercase;margin-bottom:26px;
+  animation:fu .7s ease both;
+}
+.bdot{width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);animation:blink 1.8s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+h1{
+  font-family:var(--font-h);font-weight:900;
+  font-size:clamp(34px,4.8vw,66px);letter-spacing:-2px;line-height:1.03;
+  margin-bottom:22px;animation:fu .7s .1s ease both;
+}
+h1 em{font-style:normal;color:var(--cyan)}
+.hsub{
+  font-size:17px;color:var(--g300);font-weight:300;
+  line-height:1.85;margin-bottom:38px;max-width:500px;
+  animation:fu .7s .2s ease both;
+}
+.hbtns{display:flex;gap:13px;flex-wrap:wrap;animation:fu .7s .3s ease both}
+.bp{
+  background:var(--blue);color:var(--white);border:1px solid var(--blue);
+  padding:14px 32px;border-radius:var(--r8);
+  font-family:var(--font-m);font-size:12px;letter-spacing:1.5px;
+  text-transform:uppercase;text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;transition:all .3s;cursor:pointer;
+}
+.bp:hover{background:var(--blue-b);box-shadow:0 0 32px var(--blue-g);transform:translateY(-2px)}
+.bg{
+  background:transparent;color:var(--cyan);border:1px solid rgba(6,182,212,.3);
+  padding:14px 32px;border-radius:var(--r8);
+  font-family:var(--font-m);font-size:12px;letter-spacing:1.5px;
+  text-transform:uppercase;text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;transition:all .3s;cursor:pointer;
+}
+.bg:hover{border-color:var(--cyan);background:rgba(6,182,212,.07);box-shadow:0 0 20px rgba(6,182,212,.18)}
+.hstats{
+  display:flex;gap:44px;margin-top:52px;padding-top:34px;
+  border-top:1px solid var(--border);animation:fu .7s .4s ease both;flex-wrap:wrap;
+}
+.sv{font-family:var(--font-h);font-size:30px;font-weight:900;letter-spacing:-1px}
+.sv span{color:var(--cyan)}
+.sl{font-family:var(--font-m);font-size:10px;letter-spacing:1.5px;color:var(--g400);text-transform:uppercase;margin-top:3px}
+
+/* ── 3D ROBOT VISUAL (Hero Right) ── */
+.hvisual{
+  position:relative;height:520px;
+  display:flex;align-items:center;justify-content:center;
+  animation:fi 1s .3s ease both;
+}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+.robot-scene{
+  width:100%;height:100%;position:relative;
+  display:flex;align-items:center;justify-content:center;
+}
+/* Spline embed container */
+.spline-container{
+  width:100%;height:100%;position:absolute;inset:0;
+  border-radius:var(--r16);overflow:hidden;
+}
+.spline-container iframe{width:100%;height:100%;border:none}
+/* Fallback SVG robot when spline unavailable */
+.robot-svg-wrap{
+  position:relative;z-index:2;
+  filter:drop-shadow(0 0 40px rgba(6,182,212,.5));
+  animation:robotFloat 5s ease-in-out infinite;
+}
+@keyframes robotFloat{
+  0%,100%{transform:translateY(0) rotate(-1deg)}
+  50%{transform:translateY(-18px) rotate(1deg)}
+}
+/* Rings */
+.hring{
+  position:absolute;top:50%;left:50%;
+  border-radius:50%;border-style:solid;border-color:var(--border-b);
+  transform:translate(-50%,-50%);
+}
+.hr1{width:320px;height:320px;border-width:1px;animation:spin 22s linear infinite}
+.hr2{width:240px;height:240px;border-width:1px;border-style:dashed;animation:spin 15s linear infinite reverse}
+.hr3{width:420px;height:420px;border-width:.5px;border-color:var(--border);animation:spin 35s linear infinite}
+@keyframes spin{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+.horb{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle,rgba(29,78,216,.18) 0%,transparent 70%);
+  animation:op 4s ease-in-out infinite;
+}
+@keyframes op{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.1)}}
+.hnode{
+  position:absolute;width:7px;height:7px;border-radius:50%;
+  background:var(--cyan);box-shadow:0 0 10px var(--cyan);
+  animation:np 3s ease-in-out infinite;
+}
+@keyframes np{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.6)}}
+.ds{
+  position:absolute;font-family:var(--font-m);font-size:9px;
+  color:var(--cyan);opacity:.35;animation:dsf 4s linear infinite;white-space:nowrap;
+}
+@keyframes dsf{0%{opacity:0;transform:translateY(-15px)}20%{opacity:.35}80%{opacity:.35}100%{opacity:0;transform:translateY(25px)}}
+
+/* ── TICKER ── */
+.ticker{
+  padding:13px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  overflow:hidden;background:rgba(29,78,216,.025);
+}
+.ttrack{display:flex;animation:tick 32s linear infinite;white-space:nowrap}
+.ti{
+  font-family:var(--font-m);font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--g400);padding:0 30px;display:flex;align-items:center;gap:10px;flex-shrink:0;
+}
+.ti::before{content:'//';color:var(--blue-b);font-weight:700}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── SERVICES ── */
+#services{padding:120px 0}
+.sh{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;flex-wrap:wrap;gap:28px}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.sc{
+  background:var(--bg1);padding:38px 30px;
+  position:relative;overflow:hidden;transition:background .3s;cursor:default;
+}
+.sc::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+  transform:scaleX(0);transition:transform .4s;
+}
+.sc:hover::before{transform:scaleX(1)}
+.sc:hover{background:var(--bg2)}
+.snum{font-family:var(--font-m);font-size:10px;color:var(--blue-b);letter-spacing:2px;margin-bottom:18px}
+.sico{
+  width:42px;height:42px;background:rgba(29,78,216,.1);
+  border:1px solid var(--border);border-radius:var(--r8);
+  display:flex;align-items:center;justify-content:center;
+  font-size:19px;margin-bottom:18px;transition:all .3s;
+}
+.sc:hover .sico{background:rgba(6,182,212,.1);border-color:rgba(6,182,212,.28)}
+.sc h3{font-size:15px;margin-bottom:9px}
+.sc p{font-size:13px;color:var(--g300);line-height:1.7;font-weight:300}
+.stags{display:flex;flex-wrap:wrap;gap:5px;margin-top:14px}
+.stg{
+  font-family:var(--font-m);font-size:9px;letter-spacing:1px;text-transform:uppercase;
+  color:var(--blue-b);background:rgba(29,78,216,.08);
+  border:1px solid rgba(29,78,216,.15);border-radius:var(--r4);padding:3px 7px;
+}
+
+/* ── PRICING ── */
+#pricing{padding:120px 0;background:linear-gradient(180deg,transparent,rgba(29,78,216,.03),transparent)}
+.ph{text-align:center;margin-bottom:68px}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start}
+.pc{
+  background:var(--bg1);border:1px solid var(--border);border-radius:var(--r16);
+  padding:42px 30px;transition:all .3s;position:relative;overflow:hidden;
+}
+.pc:hover{border-color:var(--border-b);transform:translateY(-4px);box-shadow:0 12px 48px rgba(29,78,216,.12)}
+.pc.feat{border-color:var(--blue);background:linear-gradient(135deg,rgba(29,78,216,.08),rgba(6,182,212,.04));box-shadow:0 0 56px rgba(29,78,216,.12)}
+.fbadge{
+  position:absolute;top:18px;right:18px;
+  background:var(--blue);color:var(--white);
+  font-family:var(--font-m);font-size:9px;letter-spacing:2px;text-transform:uppercase;
+  padding:4px 11px;border-radius:var(--r4);
+}
+.pplan{font-family:var(--font-m);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:14px}
+.pamt{font-family:var(--font-h);font-size:42px;font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:8px}
+.pcur{font-size:20px;vertical-align:top;margin-top:7px;display:inline-block;color:var(--g400)}
+.pperiod{font-family:var(--font-m);font-size:12px;color:var(--g400);margin-bottom:12px}
+.pnote{
+  background:rgba(6,182,212,.07);border:1px solid rgba(6,182,212,.2);
+  border-radius:var(--r8);padding:10px 14px;margin-bottom:28px;
+  font-size:12px;color:var(--cyan);font-family:var(--font-m);letter-spacing:.5px;
+}
+.pfeats{list-style:none;margin-bottom:32px}
+.pf{
+  display:flex;align-items:flex-start;gap:10px;padding:8px 0;
+  font-size:13px;color:var(--g200);border-bottom:1px solid rgba(255,255,255,.04);
+}
+.pf:last-child{border:none}
+.pf::before{content:'›';color:var(--cyan);font-size:15px;flex-shrink:0;margin-top:1px}
+.pcta{
+  display:block;text-align:center;padding:13px;border-radius:var(--r8);
+  font-family:var(--font-m);font-size:11px;letter-spacing:1.5px;
+  text-transform:uppercase;text-decoration:none;transition:all .3s;
+}
+.pco{border:1px solid var(--border-b);color:var(--blue-b)}
+.pco:hover{border-color:var(--blue);background:rgba(29,78,216,.08);color:var(--white)}
+.pcs{background:var(--blue);color:var(--white)}
+.pcs:hover{background:var(--blue-b);box-shadow:0 6px 28px var(--blue-g)}
+
+/* ── ORBITAL TIMELINE ── */
+#timeline{padding:120px 0}
+.tlh{text-align:center;margin-bottom:70px}
+.orbital-wrap{
+  position:relative;width:100%;height:560px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.orb-center{
+  position:absolute;width:64px;height:64px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+  display:flex;align-items:center;justify-content:center;z-index:10;
+  box-shadow:0 0 40px rgba(6,182,212,.4);
+  animation:cp 3s ease-in-out infinite;
+}
+@keyframes cp{0%,100%{box-shadow:0 0 30px rgba(6,182,212,.3)}50%{box-shadow:0 0 60px rgba(6,182,212,.6)}}
+.orb-center::before{
+  content:'';position:absolute;width:90px;height:90px;border-radius:50%;
+  border:1px solid rgba(6,182,212,.2);animation:ping 2s ease-in-out infinite;
+}
+.orb-center::after{
+  content:'';position:absolute;width:110px;height:110px;border-radius:50%;
+  border:1px solid rgba(6,182,212,.1);animation:ping 2s .5s ease-in-out infinite;
+}
+@keyframes ping{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.5);opacity:0}}
+.orb-track{
+  position:absolute;border-radius:50%;border:1px solid rgba(29,78,216,.18);
+}
+.ot1{width:380px;height:380px}
+.ot2{width:500px;height:500px;border-style:dashed;border-color:rgba(29,78,216,.1)}
+.orb-node{
+  position:absolute;top:50%;left:50%;
+  transform-origin:0 0;
+  cursor:pointer;transition:all .3s;
+}
+.on-dot{
+  width:40px;height:40px;border-radius:50%;
+  background:var(--bg1);border:1px solid var(--border-b);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;transition:all .3s;position:relative;z-index:2;
+}
+.orb-node:hover .on-dot,.orb-node.active .on-dot{
+  background:var(--blue);border-color:var(--blue);
+  box-shadow:0 0 24px var(--blue-g);transform:scale(1.25);
+}
+.on-label{
+  position:absolute;font-family:var(--font-m);font-size:10px;
+  letter-spacing:1px;white-space:nowrap;color:var(--g300);
+  transition:color .3s;top:44px;left:50%;transform:translateX(-50%);
+  text-align:center;
+}
+.orb-node:hover .on-label,.orb-node.active .on-label{color:var(--cyan)}
+.on-card{
+  position:absolute;background:rgba(4,12,24,.95);
+  border:1px solid var(--border-b);border-radius:var(--r12);
+  padding:18px;width:220px;z-index:50;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);
+  display:none;top:50px;left:50%;transform:translateX(-50%);
+}
+.orb-node.active .on-card{display:block}
+.onc-title{font-family:var(--font-h);font-size:13px;font-weight:700;margin-bottom:6px}
+.onc-text{font-size:12px;color:var(--g300);line-height:1.6;font-weight:300}
+.onc-badge{
+  display:inline-block;margin-top:8px;
+  font-family:var(--font-m);font-size:9px;letter-spacing:1.5px;
+  text-transform:uppercase;padding:3px 9px;border-radius:var(--r4);
+}
+.onc-b-done{background:rgba(34,197,94,.12);color:#4ade80;border:1px solid rgba(34,197,94,.2)}
+.onc-b-prog{background:rgba(6,182,212,.1);color:var(--cyan);border:1px solid rgba(6,182,212,.2)}
+
+/* ── PROCESS ── */
+#process{padding:120px 0;background:linear-gradient(180deg,transparent,rgba(29,78,216,.025),transparent)}
+.proch{text-align:center;margin-bottom:76px}
+.proch .sdesc{margin:0 auto}
+.procf{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.procf::before{
+  content:'';position:absolute;top:38px;left:12%;width:76%;
+  height:1px;background:linear-gradient(90deg,transparent,var(--border-b),var(--border-b),transparent);
+}
+.ps{text-align:center;padding:0 18px}
+.pn{
+  width:76px;height:76px;border-radius:50%;background:var(--bg2);
+  border:1px solid var(--border-b);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-h);font-size:17px;font-weight:800;color:var(--blue-b);
+  margin:0 auto 26px;position:relative;z-index:1;transition:all .3s;
+}
+.ps:hover .pn{background:var(--blue);color:var(--white);border-color:var(--blue);box-shadow:0 0 28px var(--blue-g)}
+.ps h3{font-size:14px;letter-spacing:.5px;margin-bottom:8px}
+.ps p{font-size:13px;color:var(--g300);font-weight:300}
+
+/* ── AI CONSOLE ── */
+#ai-feat{padding:120px 0}
+.afg{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.console{background:var(--bg1);border:1px solid var(--border);border-radius:var(--r12);overflow:hidden;font-family:var(--font-m)}
+.cbar{
+  background:var(--bg2);padding:11px 16px;
+  display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--border);
+}
+.cd{width:10px;height:10px;border-radius:50%}
+.cbody{padding:22px;font-size:12px;line-height:2.1}
+.cl{display:flex;gap:9px;align-items:flex-start}
+.cp2{color:var(--cyan)}.cc{color:var(--white)}.co{color:var(--g300)}
+.ch{color:#4ade80}.cw{color:#fbbf24}
+.ccur{display:inline-block;width:7px;height:13px;background:var(--cyan);animation:blink 1s infinite;vertical-align:middle}
+.afl{display:flex;flex-direction:column;gap:24px}
+.afi{
+  display:flex;gap:18px;padding:22px;background:var(--bg1);
+  border:1px solid var(--border);border-radius:var(--r12);transition:all .3s;
+}
+.afi:hover{border-color:var(--border-b);background:var(--bg2)}
+.afic{
+  width:46px;height:46px;flex-shrink:0;background:rgba(29,78,216,.1);
+  border:1px solid var(--border);border-radius:var(--r8);
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+}
+.afi h4{font-family:var(--font-h);font-size:13px;font-weight:700;margin-bottom:5px}
+.afi p{font-size:13px;color:var(--g300);font-weight:300}
+
+/* ── INDUSTRIES ── */
+#industries{padding:100px 0}
+.ih{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;flex-wrap:wrap;gap:26px}
+.ipills{display:flex;flex-wrap:wrap;gap:9px}
+.ip{
+  background:rgba(29,78,216,.06);border:1px solid var(--border);border-radius:var(--r4);
+  padding:10px 18px;font-family:var(--font-m);font-size:11px;letter-spacing:.5px;
+  color:var(--g300);display:flex;align-items:center;gap:9px;
+  transition:all .3s;cursor:default;
+}
+.ip:hover{background:rgba(6,182,212,.08);border-color:rgba(6,182,212,.28);color:var(--white);transform:translateY(-2px)}
+
+/* ── PROJECTS ── */
+#projects{padding:120px 0;background:linear-gradient(180deg,transparent,rgba(29,78,216,.025),transparent)}
+.projh{text-align:center;margin-bottom:66px}
+.projh .sdesc{margin:0 auto}
+.projg{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.projc{
+  background:var(--bg1);border:1px solid var(--border);border-radius:var(--r12);
+  overflow:hidden;transition:all .3s;
+}
+.projc:hover{border-color:var(--border-b);transform:translateY(-4px);box-shadow:0 12px 40px rgba(29,78,216,.12)}
+.pimg{
+  height:150px;background:var(--bg2);position:relative;
+  overflow:hidden;display:flex;align-items:center;justify-content:center;
+}
+.pgrid-art{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(29,78,216,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(29,78,216,.07) 1px,transparent 1px);
+  background-size:20px 20px;
+}
+.pimg-ico{font-size:44px;position:relative;z-index:1}
+.pimg::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(29,78,216,.14),rgba(6,182,212,.07))}
+.pbody{padding:22px}
+.pcat{font-family:var(--font-m);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:9px}
+.projc h3{font-size:14px;margin-bottom:7px}
+.projc p{font-size:13px;color:var(--g300);font-weight:300;line-height:1.7}
+.ptags{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+.ptag{
+  font-family:var(--font-m);font-size:9px;letter-spacing:1px;text-transform:uppercase;
+  color:var(--g400);background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--r4);padding:3px 7px;
+}
+
+/* ── LEADERSHIP ── */
+#leadership{padding:120px 0}
+.lh{text-align:center;margin-bottom:66px}
+.lh .sdesc{margin:0 auto}
+.lg{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.lc{
+  background:var(--bg1);border:1px solid var(--border);border-radius:var(--r12);
+  padding:38px 28px;text-align:center;transition:all .3s;position:relative;overflow:hidden;
+}
+.lc::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--blue),transparent);
+  transform:scaleX(0);transition:transform .4s;
+}
+.lc:hover::after{transform:scaleX(1)}
+.lc:hover{border-color:var(--border-b);background:var(--bg2)}
+.lav{
+  width:88px;height:88px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-h);font-size:26px;font-weight:800;
+  margin:0 auto 18px;box-shadow:0 0 28px rgba(29,78,216,.3);
+}
+.ln{font-family:var(--font-h);font-size:16px;font-weight:800;margin-bottom:5px}
+.lr{font-family:var(--font-m);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:14px}
+.lb{font-size:13px;color:var(--g300);font-weight:300;line-height:1.7}
+
+/* ── TECH ── */
+#tech{padding:80px 0;border-top:1px solid var(--border)}
+.tch{text-align:center;margin-bottom:44px}
+.tcg{display:grid;grid-template-columns:repeat(6,1fr);gap:11px}
+.tci{
+  background:var(--bg1);border:1px solid var(--border);border-radius:var(--r8);
+  padding:18px 10px;text-align:center;transition:all .3s;
+}
+.tci:hover{border-color:var(--border-b);background:var(--bg2);transform:translateY(-3px);box-shadow:0 4px 18px var(--blue-g)}
+.tci-ico{font-size:24px;margin-bottom:7px;display:block}
+.tci-n{font-family:var(--font-m);font-size:10px;color:var(--g400);letter-spacing:.5px}
+
+/* ── TESTIMONIALS (Shuffle Cards) ── */
+#testimonials{padding:120px 0;background:linear-gradient(180deg,transparent,rgba(29,78,216,.025),transparent)}
+.testh{text-align:center;margin-bottom:70px}
+.test-scene{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:50px;
+}
+.cards-wrap{
+  position:relative;width:340px;height:460px;
+  margin:0 auto;
+}
+.tcard{
+  position:absolute;left:0;top:0;
+  width:340px;height:460px;
+  background:rgba(7,18,36,.85);border:1.5px solid rgba(29,78,216,.3);
+  border-radius:18px;padding:28px;
+  backdrop-filter:blur(16px);
+  box-shadow:0 8px 40px rgba(0,0,0,.5);
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:20px;
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .4s;
+  user-select:none;
+}
+.tcard.front{
+  z-index:3;transform:rotate(-6deg) translateX(0);
+  cursor:grab;
+}
+.tcard.front:active{cursor:grabbing}
+.tcard.middle{z-index:2;transform:rotate(0deg) translateX(33%);opacity:.85}
+.tcard.back{z-index:1;transform:rotate(6deg) translateX(66%);opacity:.65}
+.tcard-av{
+  width:90px;height:90px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-h);font-size:26px;font-weight:800;
+  border:2px solid rgba(29,78,216,.4);flex-shrink:0;overflow:hidden;
+}
+.tcard-av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.tcard-quote{
+  font-size:14px;font-style:italic;color:var(--g200);
+  text-align:center;line-height:1.7;font-weight:300;
+}
+.tcard-quote::before{content:'"';color:var(--cyan);font-size:20px;font-style:normal}
+.tcard-quote::after{content:'"';color:var(--cyan);font-size:20px;font-style:normal}
+.tcard-author{font-family:var(--font-m);font-size:11px;color:var(--cyan);letter-spacing:1px;text-align:center}
+.tcard-role{font-family:var(--font-m);font-size:10px;color:var(--g400);text-align:center;margin-top:3px}
+.stars{color:#fbbf24;font-size:13px;letter-spacing:2px}
+.shuffle-hint{
+  font-family:var(--font-m);font-size:11px;letter-spacing:1.5px;
+  color:var(--g400);text-transform:uppercase;
+  display:flex;align-items:center;gap:8px;cursor:pointer;
+  transition:color .2s;
+}
+.shuffle-hint:hover{color:var(--cyan)}
+.shuffle-hint svg{width:16px;height:16px;transition:transform .3s}
+.shuffle-hint:hover svg{transform:rotate(180deg)}
+
+/* ── FAQ ── */
+#faq{padding:120px 0}
+.faqh{text-align:center;margin-bottom:66px}
+.faqw{max-width:800px;margin:0 auto}
+.faqitem{border-bottom:1px solid var(--border);padding:22px 0}
+.faqq{display:flex;justify-content:space-between;align-items:center;cursor:pointer;gap:18px}
+.faqq h4{font-family:var(--font-h);font-size:15px;font-weight:700}
+.faqtog{
+  width:26px;height:26px;border-radius:var(--r4);
+  border:1px solid var(--border-b);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--cyan);font-size:16px;flex-shrink:0;
+  transition:all .3s;font-family:var(--font-m);line-height:1;
+}
+.faqitem.open .faqtog{background:var(--blue);border-color:var(--blue);color:var(--white);transform:rotate(45deg)}
+.faqa{
+  font-size:14px;color:var(--g300);font-weight:300;line-height:1.8;
+  max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;
+}
+.faqitem.open .faqa{max-height:300px;padding-top:14px}
+
+/* ── CONTACT ── */
+#contact{padding:120px 0;text-align:center;position:relative;overflow:hidden}
+.corb{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:700px;height:400px;
+  background:radial-gradient(ellipse,rgba(29,78,216,.1) 0%,transparent 70%);
+  pointer-events:none;
+}
+.cw2{position:relative;z-index:1}
+.cw2 h2{font-size:clamp(30px,4.5vw,56px);max-width:800px;margin:0 auto 18px}
+.cw2 .sdesc{margin:0 auto 14px}
+.offices{display:flex;justify-content:center;gap:28px;margin-bottom:44px;flex-wrap:wrap}
+.office{
+  background:var(--bg1);border:1px solid var(--border);border-radius:var(--r8);
+  padding:12px 20px;font-family:var(--font-m);font-size:12px;
+  display:flex;align-items:center;gap:9px;color:var(--g300);transition:all .3s;
+}
+.office:hover{border-color:var(--border-b);color:var(--white)}
+.cform{max-width:620px;margin:0 auto;display:flex;flex-direction:column;gap:13px}
+.formr{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.fi,.fsel,.fta{
+  background:rgba(255,255,255,.03);border:1px solid var(--border);
+  border-radius:var(--r8);padding:13px 15px;
+  color:var(--white);font-family:var(--font-b);font-size:14px;
+  transition:border-color .3s,box-shadow .3s;width:100%;outline:none;
+}
+.fi::placeholder,.fta::placeholder{color:var(--g400)}
+.fi:focus,.fsel:focus,.fta:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(6,182,212,.08)}
+.fsel{appearance:none;cursor:pointer}
+.fsel option{background:var(--bg2)}
+.fta{resize:vertical;min-height:108px}
+.fsub{
+  background:var(--blue);color:var(--white);border:1px solid var(--blue);
+  padding:15px;border-radius:var(--r8);width:100%;
+  font-family:var(--font-m);font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  cursor:pointer;transition:all .3s;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.fsub:hover{background:var(--blue-b);box-shadow:0 8px 28px var(--blue-g);transform:translateY(-2px)}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);padding:68px 0 34px;position:relative;z-index:2}
+.fg{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:56px;margin-bottom:52px}
+.fb p{font-size:13px;color:var(--g300);font-weight:300;line-height:1.9;margin:14px 0 22px;max-width:280px}
+.fsocs{display:flex;gap:9px}
+.fsl{
+  width:34px;height:34px;border-radius:var(--r8);
+  background:rgba(29,78,216,.08);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-m);font-size:11px;font-weight:700;
+  color:var(--g300);text-decoration:none;transition:all .3s;
+}
+.fsl:hover{background:rgba(6,182,212,.1);border-color:rgba(6,182,212,.28);color:var(--cyan)}
+.fcol h5{font-family:var(--font-m);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--white);margin-bottom:18px}
+.flinks{list-style:none}
+.flinks li{margin-bottom:9px}
+.flinks a{font-size:13px;color:var(--g400);text-decoration:none;font-weight:300;transition:color .2s}
+.flinks a:hover{color:var(--cyan)}
+.fbot{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-top:22px;border-top:1px solid var(--border);
+  font-family:var(--font-m);font-size:11px;color:var(--g400);
+  flex-wrap:wrap;gap:10px;letter-spacing:.5px;
+}
+
+/* ── CHATBOT ── */
+.cfab{
+  position:fixed;bottom:30px;right:30px;
+  width:56px;height:56px;border-radius:50%;
+  background:var(--blue);border:1px solid var(--blue-b);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:900;
+  box-shadow:0 0 28px var(--blue-g);transition:all .3s;
+  animation:fabp 3s ease-in-out infinite;
+}
+.cfab:hover{background:var(--blue-b);box-shadow:0 0 44px var(--blue-g);transform:scale(1.08)}
+@keyframes fabp{0%,100%{box-shadow:0 0 18px var(--blue-g)}50%{box-shadow:0 0 38px rgba(29,78,216,.45)}}
+.cwin{
+  position:fixed;bottom:96px;right:30px;width:350px;
+  background:var(--bg1);border:1px solid var(--border-b);border-radius:var(--r16);
+  overflow:hidden;z-index:900;
+  box-shadow:0 18px 56px rgba(0,0,0,.6),0 0 56px rgba(29,78,216,.1);
+  display:none;flex-direction:column;max-height:510px;
+  animation:su .3s ease;
+}
+.cwin.open{display:flex}
+@keyframes su{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.chatheader{
+  background:var(--bg2);padding:13px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border);
+}
+.chtitle{display:flex;align-items:center;gap:9px;font-family:var(--font-m);font-size:12px;color:var(--white)}
+.chstat{width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 7px #22c55e;animation:blink 2s infinite}
+.chclose{background:none;border:none;color:var(--g400);cursor:pointer;font-size:17px;line-height:1;padding:0;transition:color .2s}
+.chclose:hover{color:var(--white)}
+.cmsgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.msg{max-width:85%;padding:9px 13px;border-radius:var(--r8);font-size:13px;line-height:1.6}
+.msg-b{background:var(--bg2);border:1px solid var(--border);color:var(--g200);align-self:flex-start;border-radius:2px 8px 8px 8px}
+.msg-u{background:var(--blue);color:var(--white);align-self:flex-end;border-radius:8px 2px 8px 8px}
+.typing{background:var(--bg2);border:1px solid var(--border);padding:12px 15px;align-self:flex-start;border-radius:2px 8px 8px 8px}
+.tdots{display:flex;gap:4px}
+.tdots span{width:5px;height:5px;border-radius:50%;background:var(--g400);animation:db .9s ease infinite}
+.tdots span:nth-child(2){animation-delay:.2s}
+.tdots span:nth-child(3){animation-delay:.4s}
+@keyframes db{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
+.cquick{display:flex;flex-wrap:wrap;gap:5px;padding:8px 16px;border-top:1px solid var(--border)}
+.qb{
+  background:rgba(29,78,216,.1);border:1px solid var(--border);border-radius:var(--r4);
+  padding:4px 10px;font-family:var(--font-m);font-size:10px;letter-spacing:.5px;
+  color:var(--blue-b);cursor:pointer;transition:all .2s;white-space:nowrap;
+}
+.qb:hover{background:rgba(29,78,216,.2);border-color:var(--border-b);color:var(--white)}
+.cinput{display:flex;padding:11px 13px;border-top:1px solid var(--border);gap:9px}
+.cinput input{
+  flex:1;background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:var(--r8);padding:8px 11px;color:var(--white);
+  font-family:var(--font-b);font-size:13px;outline:none;transition:border-color .2s;
+}
+.cinput input::placeholder{color:var(--g400)}
+.cinput input:focus{border-color:rgba(6,182,212,.4)}
+.csend{
+  width:34px;height:34px;border-radius:var(--r8);
+  background:var(--blue);border:none;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;flex-shrink:0;transition:all .2s;
+}
+.csend:hover{background:var(--blue-b)}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ── UTILS ── */
+@keyframes fu{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg0)}
+::-webkit-scrollbar-thumb{background:var(--blue);border-radius:2px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  nav,.ctr,footer .ctr{padding-left:28px;padding-right:28px}
+  .hgrid{grid-template-columns:1fr}
+  .hvisual{display:none}
+  .sgrid{grid-template-columns:repeat(2,1fr)}
+  .procf{grid-template-columns:repeat(2,1fr);gap:36px}
+  .procf::before{display:none}
+  .afg{grid-template-columns:1fr}
+  .lg{grid-template-columns:1fr 1fr}
+  .tcg{grid-template-columns:repeat(4,1fr)}
+  .pgrid{grid-template-columns:1fr;max-width:480px;margin:0 auto}
+  .fg{grid-template-columns:1fr 1fr}
+  .formr{grid-template-columns:1fr}
+  .nlinks{display:none}
+  .projg{grid-template-columns:1fr 1fr}
+}
+@media(max-width:640px){
+  .sgrid{grid-template-columns:1fr}
+  .tcg{grid-template-columns:repeat(3,1fr)}
+  .lg{grid-template-columns:1fr}
+  .fg{grid-template-columns:1fr}
+  .projg{grid-template-columns:1fr}
+  .orbital-wrap{height:400px}
+  .ot1{width:280px;height:280px}
+  .ot2{width:360px;height:360px}
+}
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div id="cur"></div>
+<div id="cur-r"></div>
+
+<!-- Neural BG Canvas -->
+<canvas id="nbg"></canvas>
+
+<!-- ══ NAV ══ -->
+<nav id="mainnav">
+  <a href="#" class="nl">
+    <svg class="lsvg" viewBox="0 0 32 36" fill="none">
+      <rect x="0" y="0" width="32" height="7.5" rx="3.75" fill="#1d4ed8"/>
+      <polygon points="23,7.5 32,7.5 9,28.5 0,28.5" fill="#1d4ed8" opacity=".85"/>
+      <rect x="0" y="28.5" width="32" height="7.5" rx="3.75" fill="#1d4ed8"/>
+      <rect x="2" y="1.5" width="13" height="2.5" rx="1.25" fill="white" opacity=".28"/>
+    </svg>
+    <span class="lt">Zalenca <span>Tech</span></span>
+  </a>
+  <ul class="nlinks">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#timeline">Process</a></li>
+    <li><a href="#leadership">Team</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact" class="ncta">Get Started</a></li>
+  </ul>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="ctr">
+    <div class="hgrid">
+      <!-- Left -->
+      <div>
+        <div class="hbadge"><div class="bdot"></div>AI Agency · Est. 2022 · 2000+ Projects</div>
+        <h1>Engineering the<br><em>AI-Powered</em><br>Future of Business</h1>
+        <p class="hsub">From intelligent chatbots to full enterprise automation — Zalenca Technologies builds the AI systems, autonomous agents, and digital platforms that redefine how companies operate globally.</p>
+        <div class="hbtns">
+          <a href="#contact" class="bp">
+            Start Your Project
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#services" class="bg">Explore Services</a>
+        </div>
+        <div class="hstats">
+          <div><div class="sv">2000<span>+</span></div><div class="sl">Projects</div></div>
+          <div><div class="sv">3<span>yrs</span></div><div class="sl">Operating</div></div>
+          <div><div class="sv">14<span>+</span></div><div class="sl">Industries</div></div>
+          <div><div class="sv">3</div><div class="sl">Global Offices</div></div>
+        </div>
+      </div>
+
+      <!-- Right — 3D Robot Visual -->
+      <div class="hvisual">
+        <div class="robot-scene">
+          <div class="horb"></div>
+          <div class="hring hr1"></div>
+          <div class="hring hr2"></div>
+          <div class="hring hr3"></div>
+
+          <!-- SVG Robot (Spline-inspired, pure SVG) -->
+          <div class="robot-svg-wrap">
+            <svg width="200" height="240" viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Head -->
+              <rect x="60" y="20" width="80" height="70" rx="14" fill="#071224" stroke="#1d4ed8" stroke-width="1.5"/>
+              <!-- Eye left -->
+              <rect x="74" y="38" width="22" height="16" rx="5" fill="#06b6d4" opacity=".9"/>
+              <circle cx="85" cy="46" r="5" fill="white"/>
+              <circle cx="87" cy="44" r="2" fill="#1d4ed8"/>
+              <!-- Eye right -->
+              <rect x="104" y="38" width="22" height="16" rx="5" fill="#06b6d4" opacity=".9"/>
+              <circle cx="115" cy="46" r="5" fill="white"/>
+              <circle cx="117" cy="44" r="2" fill="#1d4ed8"/>
+              <!-- Mouth -->
+              <rect x="78" y="66" width="44" height="7" rx="3" fill="#1d4ed8" opacity=".7"/>
+              <rect x="82" y="67.5" width="8" height="4" rx="2" fill="#06b6d4"/>
+              <rect x="96" y="67.5" width="8" height="4" rx="2" fill="#06b6d4"/>
+              <rect x="110" y="67.5" width="8" height="4" rx="2" fill="#06b6d4"/>
+              <!-- Antenna -->
+              <line x1="100" y1="20" x2="100" y2="6" stroke="#06b6d4" stroke-width="1.5"/>
+              <circle cx="100" cy="4" r="4" fill="#06b6d4">
+                <animate attributeName="r" values="4;6;4" dur="1.5s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="1;.4;1" dur="1.5s" repeatCount="indefinite"/>
+              </circle>
+              <!-- Neck -->
+              <rect x="88" y="90" width="24" height="12" rx="4" fill="#071224" stroke="#1d4ed8" stroke-width="1"/>
+              <!-- Body -->
+              <rect x="48" y="102" width="104" height="90" rx="16" fill="#071224" stroke="#1d4ed8" stroke-width="1.5"/>
+              <!-- Chest panel -->
+              <rect x="62" y="114" width="76" height="50" rx="8" fill="#040c18" stroke="rgba(6,182,212,.3)" stroke-width="1"/>
+              <!-- Circuit lines chest -->
+              <line x1="70" y1="128" x2="130" y2="128" stroke="rgba(29,78,216,.5)" stroke-width=".8"/>
+              <line x1="70" y1="136" x2="110" y2="136" stroke="rgba(29,78,216,.5)" stroke-width=".8"/>
+              <line x1="70" y1="144" x2="120" y2="144" stroke="rgba(29,78,216,.5)" stroke-width=".8"/>
+              <!-- Core orb -->
+              <circle cx="100" cy="134" r="14" fill="rgba(6,182,212,.1)" stroke="#06b6d4" stroke-width="1">
+                <animate attributeName="opacity" values=".6;1;.6" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="100" cy="134" r="8" fill="#06b6d4" opacity=".6">
+                <animate attributeName="r" values="8;10;8" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <!-- Shoulder bolts -->
+              <circle cx="54" cy="112" r="5" fill="#1d4ed8"/>
+              <circle cx="146" cy="112" r="5" fill="#1d4ed8"/>
+              <!-- Left arm -->
+              <rect x="18" y="106" width="30" height="70" rx="14" fill="#071224" stroke="#1d4ed8" stroke-width="1.5"/>
+              <rect x="24" y="136" width="18" height="28" rx="8" fill="#040c18" stroke="rgba(6,182,212,.25)" stroke-width="1"/>
+              <!-- Right arm -->
+              <rect x="152" y="106" width="30" height="70" rx="14" fill="#071224" stroke="#1d4ed8" stroke-width="1.5"/>
+              <rect x="158" y="136" width="18" height="28" rx="8" fill="#040c18" stroke="rgba(6,182,212,.25)" stroke-width="1"/>
+              <!-- Left hand -->
+              <rect x="20" y="176" width="26" height="18" rx="8" fill="#1d4ed8"/>
+              <!-- Right hand -->
+              <rect x="154" y="176" width="26" height="18" rx="8" fill="#1d4ed8"/>
+              <!-- Legs -->
+              <rect x="58" y="192" width="34" height="42" rx="10" fill="#071224" stroke="#1d4ed8" stroke-width="1.5"/>
+              <rect x="108" y="192" width="34" height="42" rx="10" fill="#071224" stroke="#1d4ed8" stroke-width="1.5"/>
+              <!-- Feet -->
+              <rect x="54" y="226" width="42" height="14" rx="7" fill="#1d4ed8"/>
+              <rect x="104" y="226" width="42" height="14" rx="7" fill="#1d4ed8"/>
+              <!-- Glow line bottom -->
+              <rect x="0" y="238" width="200" height="2" rx="1" fill="url(#rg)" opacity=".4"/>
+              <defs>
+                <linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="transparent"/>
+                  <stop offset="50%" stop-color="#06b6d4"/>
+                  <stop offset="100%" stop-color="transparent"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+
+          <!-- Nodes -->
+          <div class="hnode" style="top:8%;left:50%;margin-left:-3px;animation-delay:.3s"></div>
+          <div class="hnode" style="top:50%;right:5%;margin-top:-3px;animation-delay:.8s"></div>
+          <div class="hnode" style="bottom:10%;left:28%;animation-delay:1.2s"></div>
+          <div class="hnode" style="top:28%;left:5%;animation-delay:1.6s"></div>
+
+          <!-- Data streams -->
+          <div class="ds" style="top:18%;left:8%;animation-delay:0s">01001010 // NEURAL</div>
+          <div class="ds" style="top:62%;right:4%;animation-delay:2s">AI_AGENT::READY</div>
+          <div class="ds" style="top:38%;left:3%;animation-delay:1s">DEPLOY→PROD</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TICKER ══ -->
+<div class="ticker">
+  <div class="ttrack">
+    <div class="ti">AI Systems</div><div class="ti">Machine Learning</div><div class="ti">Chatbot Dev</div>
+    <div class="ti">SaaS Products</div><div class="ti">AI Automation</div><div class="ti">Computer Vision</div>
+    <div class="ti">LLM Fine-Tuning</div><div class="ti">Web + AI</div><div class="ti">Game Dev</div>
+    <div class="ti">Digital Marketing</div><div class="ti">E-Commerce</div><div class="ti">POS Systems</div>
+    <div class="ti">Mobile Apps</div><div class="ti">Management Systems</div>
+    <!-- duplicate -->
+    <div class="ti">AI Systems</div><div class="ti">Machine Learning</div><div class="ti">Chatbot Dev</div>
+    <div class="ti">SaaS Products</div><div class="ti">AI Automation</div><div class="ti">Computer Vision</div>
+    <div class="ti">LLM Fine-Tuning</div><div class="ti">Web + AI</div><div class="ti">Game Dev</div>
+    <div class="ti">Digital Marketing</div><div class="ti">E-Commerce</div><div class="ti">POS Systems</div>
+    <div class="ti">Mobile Apps</div><div class="ti">Management Systems</div>
+  </div>
+</div>
+
+<!-- ══ SERVICES ══ -->
+<section id="services">
+  <div class="ctr">
+    <div class="sh reveal">
+      <div><div class="stag">What We Build</div><h2>Our Services</h2></div>
+      <p class="sdesc">End-to-end AI solutions and digital platforms built to transform how businesses operate at scale.</p>
+    </div>
+    <div class="sgrid reveal">
+      <div class="sc"><div class="snum">01</div><div class="sico">📦</div><h3>SaaS Product Development</h3><p>Design, build, and launch Software-as-a-Service platforms tailored to your niche. Multi-tenant architecture, subscription billing, analytics dashboards — fully handled.</p><div class="stags"><span class="stg">Multi-tenant</span><span class="stg">Billing</span><span class="stg">API-first</span></div></div>
+      <div class="sc"><div class="snum">02</div><div class="sico">⚙️</div><h3>AI Automation & Intelligent Agents</h3><p>Automate repetitive workflows, reduce costs, and unlock new efficiencies using state-of-the-art AI agents and automation pipelines across your entire operation.</p><div class="stags"><span class="stg">AI Agents</span><span class="stg">RPA</span><span class="stg">OCR</span><span class="stg">Orchestration</span></div></div>
+      <div class="sc"><div class="snum">03</div><div class="sico">🧠</div><h3>Machine Learning & Model Fine-Tuning</h3><p>Bespoke ML models trained on your proprietary data using supervised, unsupervised, and RLHF methodologies. Custom LLMs, computer vision, predictive analytics.</p><div class="stags"><span class="stg">RLHF</span><span class="stg">Fine-tuning</span><span class="stg">CV</span></div></div>
+      <div class="sc"><div class="snum">04</div><div class="sico">🌐</div><h3>Web & Mobile App Development</h3><p>Beautiful, high-performance applications across all platforms. React/Next.js, iOS, Android, Flutter, PWAs — from stunning landing pages to complex enterprise portals.</p><div class="stags"><span class="stg">React</span><span class="stg">Flutter</span><span class="stg">iOS & Android</span></div></div>
+      <div class="sc"><div class="snum">05</div><div class="sico">🎮</div><h3>Game Development</h3><p>From hyper-casual mobile games to immersive 3D experiences. Our game dev team creates engaging products built to entertain and monetize effectively.</p><div class="stags"><span class="stg">Unity</span><span class="stg">Unreal</span><span class="stg">Multiplayer</span></div></div>
+      <div class="sc"><div class="snum">06</div><div class="sico">📈</div><h3>Digital Marketing & Growth</h3><p>Data-driven campaigns that attract, convert, and retain. SEO, paid ads (Google/Meta/TikTok), email automation, social media management, and performance analytics.</p><div class="stags"><span class="stg">SEO</span><span class="stg">Paid Ads</span><span class="stg">CRM</span></div></div>
+      <div class="sc"><div class="snum">07</div><div class="sico">🤖</div><h3>Chatbot Development</h3><p>Conversational AI for support, sales, and internal ops — deployed on web, WhatsApp, Telegram, and any platform your customers use. GPT-4, RAG, multi-modal.</p><div class="stags"><span class="stg">NLP</span><span class="stg">RAG</span><span class="stg">Voice</span></div></div>
+      <div class="sc"><div class="snum">08</div><div class="sico">🛒</div><h3>E-Commerce Platforms</h3><p>AI-powered online stores with smart recommendations, automated inventory, dynamic pricing, and intelligent customer journey optimization that converts.</p><div class="stags"><span class="stg">AI Recs</span><span class="stg">Smart Pricing</span><span class="stg">Auto-inventory</span></div></div>
+      <div class="sc"><div class="snum">09</div><div class="sico">👁️</div><h3>Computer Vision Systems</h3><p>Real-time visual AI — object detection, facial recognition, quality control, OCR, and video analytics deployed at edge or cloud scale for any industry.</p><div class="stags"><span class="stg">YOLOv8</span><span class="stg">Edge AI</span><span class="stg">Video</span></div></div>
+      <div class="sc"><div class="snum">10</div><div class="sico">🖥️</div><h3>Management & POS Systems</h3><p>Custom ERP, CRM, and point-of-sale systems designed around your workflows — with AI-powered insights, real-time dashboards, and automated reporting.</p><div class="stags"><span class="stg">ERP</span><span class="stg">CRM</span><span class="stg">POS</span></div></div>
+      <div class="sc"><div class="snum">11</div><div class="sico">🎨</div><h3>Graphics & Brand Design</h3><p>Brand identity, UI/UX, social media creatives, and AI-assisted marketing materials that communicate your story with precision, consistency, and lasting impact.</p><div class="stags"><span class="stg">Branding</span><span class="stg">UI/UX</span><span class="stg">Motion</span></div></div>
+      <div class="sc"><div class="snum">12</div><div class="sico">🚀</div><h3>Full Business AI Transformation</h3><p>End-to-end conversion of your entire company onto AI — strategy, implementation, staff training, and continuous optimization for maximum competitive advantage.</p><div class="stags"><span class="stg">Strategy</span><span class="stg">Change mgmt</span><span class="stg">Training</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ AI FEATURES ══ -->
+<section id="ai-feat">
+  <div class="ctr">
+    <div class="afg">
+      <div class="reveal">
+        <div class="console">
+          <div class="cbar">
+            <div class="cd" style="background:#ff5f57"></div>
+            <div class="cd" style="background:#febc2e;margin-left:5px"></div>
+            <div class="cd" style="background:#28c840;margin-left:5px"></div>
+            <span style="font-size:11px;color:var(--g400);margin-left:11px;font-family:var(--font-m);letter-spacing:1px">zalenca-ai-core v3.4.0</span>
+          </div>
+          <div class="cbody">
+            <div class="cl"><span class="cp2">›</span><span class="cc">&nbsp;initialize AI agent cluster</span></div>
+            <div class="cl"><span class="co">&nbsp;&nbsp;Loading neural pathways...</span></div>
+            <div class="cl"><span class="ch">&nbsp;&nbsp;✓ LLM core online [GPT-4o]</span></div>
+            <div class="cl"><span class="cp2">›</span><span class="cc">&nbsp;deploy automation pipeline</span></div>
+            <div class="cl"><span class="co">&nbsp;&nbsp;Scanning workflows [████████] 100%</span></div>
+            <div class="cl"><span class="ch">&nbsp;&nbsp;✓ 47 tasks automated</span></div>
+            <div class="cl"><span class="cw">&nbsp;&nbsp;⚡ Efficiency gain: +340%</span></div>
+            <div class="cl"><span class="cp2">›</span><span class="cc">&nbsp;run predictive model</span></div>
+            <div class="cl"><span class="co">&nbsp;&nbsp;Analyzing 2.4M data points...</span></div>
+            <div class="cl"><span class="ch">&nbsp;&nbsp;✓ Forecast accuracy: 97.3%</span></div>
+            <div class="cl"><span class="cp2">›</span><span class="cc">&nbsp;<span class="ccur"></span></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="stag">Why AI with Zalenca</div>
+        <h2 style="margin-bottom:32px">Built Different.<br>Built for <em style="color:var(--cyan);font-style:normal">Results.</em></h2>
+        <div class="afl">
+          <div class="afi"><div class="afic">🎯</div><div><h4>Custom AI Architecture</h4><p>No off-the-shelf models. Every system is purpose-built on your data, tuned to your exact goals.</p></div></div>
+          <div class="afi"><div class="afic">⚡</div><div><h4>Rapid Deployment</h4><p>Production-ready AI delivered in days — not months. First results visible within 7 days of kick-off.</p></div></div>
+          <div class="afi"><div class="afic">🔐</div><div><h4>Enterprise-Grade Security</h4><p>End-to-end encryption, SOC 2 aligned practices, and cloud-native architecture that scales securely.</p></div></div>
+          <div class="afi"><div class="afic">🔄</div><div><h4>Continuous Optimization</h4><p>We monitor, retrain, and evolve your systems continuously — your AI gets smarter every month.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ORBITAL TIMELINE ══ -->
+<section id="timeline">
+  <div class="ctr">
+    <div class="tlh reveal">
+      <div class="stag" style="justify-content:center">Interactive Process</div>
+      <h2>From Idea to Intelligent System</h2>
+      <p class="sdesc" style="margin:0 auto">Click any node to explore our AI delivery framework — each stage engineered for precision and speed.</p>
+    </div>
+    <div class="orbital-wrap reveal">
+      <!-- Tracks -->
+      <div class="orb-track ot1"></div>
+      <div class="orb-track ot2"></div>
+
+      <!-- Center -->
+      <div class="orb-center">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <rect x="2" y="2" width="24" height="24" rx="5" fill="white" opacity=".9"/>
+          <path d="M8 14h12M14 8l6 6-6 6" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <!-- Nodes — positioned via JS -->
+      <div id="orb-nodes"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROCESS ══ -->
+<section id="process">
+  <div class="ctr">
+    <div class="proch reveal">
+      <div class="stag" style="justify-content:center">How We Work</div>
+      <h2>Our 4-Step AI Delivery Framework</h2>
+      <p class="sdesc">A battle-tested process that delivers production-ready AI faster than anyone else in the industry.</p>
+    </div>
+    <div class="procf reveal">
+      <div class="ps"><div class="pn">01</div><h3>Discovery & Strategy</h3><p>Deep-dive into your business, data landscape, and goals to build a custom AI roadmap.</p></div>
+      <div class="ps"><div class="pn">02</div><h3>Design & Architecture</h3><p>System design, data pipelines, and AI model structure — before a single line of code is written.</p></div>
+      <div class="ps"><div class="pn">03</div><h3>Build & Train</h3><p>Develop, fine-tune, and integrate your AI systems with existing tools, APIs, and infrastructure.</p></div>
+      <div class="ps"><div class="pn">04</div><h3>Deploy & Evolve</h3><p>Launch to production, monitor, and continuously optimize for maximum measurable ROI.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ INDUSTRIES ══ -->
+<section id="industries">
+  <div class="ctr">
+    <div class="ih reveal">
+      <div><div class="stag">Who We Serve</div><h2>Industries We Transform</h2></div>
+      <p class="sdesc">AI solutions engineered for every sector — from early-stage startups to global enterprises.</p>
+    </div>
+    <div class="ipills reveal">
+      <div class="ip">🏥 Healthcare</div><div class="ip">🏦 Finance & Banking</div>
+      <div class="ip">🛍️ Retail & E-Commerce</div><div class="ip">🏭 Manufacturing</div>
+      <div class="ip">🎓 Education & EdTech</div><div class="ip">🏘️ Real Estate</div>
+      <div class="ip">🍽️ Food & Hospitality</div><div class="ip">⚖️ Legal & Compliance</div>
+      <div class="ip">🚚 Logistics & Supply Chain</div><div class="ip">📡 Telecom & Media</div>
+      <div class="ip">💼 HR & Recruitment</div><div class="ip">🌿 Agriculture & AgriTech</div>
+      <div class="ip">🔐 Cybersecurity</div><div class="ip">🎮 Gaming & Entertainment</div>
+      <div class="ip">🚀 Startups & Scale-ups</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROJECTS ══ -->
+<section id="projects">
+  <div class="ctr">
+    <div class="projh reveal">
+      <div class="stag" style="justify-content:center">Our Work</div>
+      <h2>Previous Projects</h2>
+      <p class="sdesc">A selection of real-world AI systems, platforms, and automations delivered across 14+ industries.</p>
+    </div>
+    <div class="projg reveal">
+      <div class="projc"><div class="pimg"><div class="pgrid-art"></div><div class="pimg-ico">🤖</div></div><div class="pbody"><div class="pcat">AI Automation</div><h3>FinCore Intelligent Invoice Processing</h3><p>End-to-end AI pipeline that reads, extracts, validates, and books invoices automatically — 87% workload reduction.</p><div class="ptags"><span class="ptag">OCR</span><span class="ptag">LLM</span><span class="ptag">ERP</span></div></div></div>
+      <div class="projc"><div class="pimg"><div class="pgrid-art"></div><div class="pimg-ico">🧠</div></div><div class="pbody"><div class="pcat">Machine Learning</div><h3>RetailSense Demand Forecasting</h3><p>Custom ML model predicting demand 30 days ahead with 96.4% accuracy — eliminating stockouts, cutting overstock 42%.</p><div class="ptags"><span class="ptag">Time-series</span><span class="ptag">TensorFlow</span><span class="ptag">AWS</span></div></div></div>
+      <div class="projc"><div class="pimg"><div class="pgrid-art"></div><div class="pimg-ico">💬</div></div><div class="pbody"><div class="pcat">Chatbot Dev</div><h3>MediAssist Patient Support AI</h3><p>HIPAA-aligned AI handling 12,000+ patient queries daily — appointments, triage, prescription reminders.</p><div class="ptags"><span class="ptag">GPT-4</span><span class="ptag">RAG</span><span class="ptag">WhatsApp</span></div></div></div>
+      <div class="projc"><div class="pimg"><div class="pgrid-art"></div><div class="pimg-ico">🏗️</div></div><div class="pbody"><div class="pcat">Management System</div><h3>LogiTrack Fleet & Ops Platform</h3><p>Real-time fleet management with AI route optimization and predictive maintenance for 800+ vehicles.</p><div class="ptags"><span class="ptag">React</span><span class="ptag">Node.js</span><span class="ptag">IoT</span></div></div></div>
+      <div class="projc"><div class="pimg"><div class="pgrid-art"></div><div class="pimg-ico">👁️</div></div><div class="pbody"><div class="pcat">Computer Vision</div><h3>QualityEye Manufacturing Inspector</h3><p>Visual defect detection on production lines — 99.2% accuracy, reducing waste by 63%, saving $400K in Q1.</p><div class="ptags"><span class="ptag">YOLOv8</span><span class="ptag">OpenCV</span><span class="ptag">Edge AI</span></div></div></div>
+      <div class="projc"><div class="pimg"><div class="pgrid-art"></div><div class="pimg-ico">📊</div></div><div class="pbody"><div class="pcat">SaaS Product</div><h3>HireIQ Recruitment Intelligence</h3><p>AI SaaS screening CVs, ranking candidates, conducting async video interviews — 10× faster hiring cycles.</p><div class="ptags"><span class="ptag">NLP</span><span class="ptag">Video AI</span><span class="ptag">SaaS</span></div></div></div>
+      <div class="projc"><div class="pimg"><div class="pgrid-art"></div><div class="pimg-ico">🛒</div></div><div class="pbody"><div class="pcat">E-Commerce</div><h3>StyleAI Personalized Fashion Store</h3><p>AI-driven fashion e-commerce with visual search, personalized feeds, and an LLM-powered shopping assistant.</p><div class="ptags"><span class="ptag">Next.js</span><span class="ptag">Rec AI</span><span class="ptag">Stripe</span></div></div></div>
+      <div class="projc"><div class="pimg"><div class="pgrid-art"></div><div class="pimg-ico">🏪</div></div><div class="pbody"><div class="pcat">POS System</div><h3>SmartPOS Restaurant Intelligence</h3><p>AI POS with demand prediction, smart upsell prompts, inventory auto-ordering, and real-time profitability tracking.</p><div class="ptags"><span class="ptag">React Native</span><span class="ptag">ML</span><span class="ptag">Cloud</span></div></div></div>
+      <div class="projc"><div class="pimg"><div class="pgrid-art"></div><div class="pimg-ico">⚙️</div></div><div class="pbody"><div class="pcat">AI Workflow</div><h3>PropFlow Real Estate Automation</h3><p>Full automation of lead nurturing, property matching, document generation, and follow-up sequences.</p><div class="ptags"><span class="ptag">n8n</span><span class="ptag">GPT-4</span><span class="ptag">CRM</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ LEADERSHIP ══ -->
+<section id="leadership">
+  <div class="ctr">
+    <div class="lh reveal">
+      <div class="stag" style="justify-content:center">The Team</div>
+      <h2>Our Leadership</h2>
+      <p class="sdesc">The minds behind Zalenca — builders, engineers, and strategists committed to the AI-first future of business.</p>
+    </div>
+    <div class="lg reveal">
+      <div class="lc"><div class="lav">AU</div><div class="ln">Azwer Ullah</div><div class="lr">Founder & CEO</div><p class="lb">Visionary entrepreneur and AI systems architect who founded Zalenca Technologies with the mission to make enterprise-grade AI accessible to every business. Over 3 years leading 2000+ successful AI projects across 14+ industries globally.</p></div>
+      <div class="lc"><div class="lav">ZT</div><div class="ln">Zain Tariq</div><div class="lr">Chief Technology Officer</div><p class="lb">Former ML engineer with deep expertise in LLM fine-tuning, autonomous agent systems, and scalable cloud-native AI infrastructure. Leads Zalenca's entire engineering division and R&D pipeline.</p></div>
+      <div class="lc"><div class="lav">SR</div><div class="ln">Sara Raza</div><div class="lr">Head of Product & Design</div><p class="lb">Product strategist and UX architect who transforms complex AI capabilities into elegant, intuitive experiences. Ensures every Zalenca product works intelligently and feels effortless to use.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TECH ══ -->
+<section id="tech">
+  <div class="ctr">
+    <div class="tch reveal"><div class="stag" style="justify-content:center">Our Stack</div><h2>Technologies We Master</h2></div>
+    <div class="tcg reveal">
+      <div class="tci"><span class="tci-ico">🐍</span><div class="tci-n">Python</div></div>
+      <div class="tci"><span class="tci-ico">🤖</span><div class="tci-n">OpenAI</div></div>
+      <div class="tci"><span class="tci-ico">⚛️</span><div class="tci-n">React</div></div>
+      <div class="tci"><span class="tci-ico">🟢</span><div class="tci-n">Node.js</div></div>
+      <div class="tci"><span class="tci-ico">☁️</span><div class="tci-n">AWS</div></div>
+      <div class="tci"><span class="tci-ico">🔥</span><div class="tci-n">Firebase</div></div>
+      <div class="tci"><span class="tci-ico">🗄️</span><div class="tci-n">PostgreSQL</div></div>
+      <div class="tci"><span class="tci-ico">🍃</span><div class="tci-n">MongoDB</div></div>
+      <div class="tci"><span class="tci-ico">🔗</span><div class="tci-n">LangChain</div></div>
+      <div class="tci"><span class="tci-ico">🐋</span><div class="tci-n">Docker</div></div>
+      <div class="tci"><span class="tci-ico">📊</span><div class="tci-n">TensorFlow</div></div>
+      <div class="tci"><span class="tci-ico">⚡</span><div class="tci-n">Next.js</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PRICING ══ -->
+<section id="pricing">
+  <div class="ctr">
+    <div class="ph reveal">
+      <div class="stag" style="justify-content:center">Investment</div>
+      <h2>Transparent Pricing</h2>
+      <p class="sdesc" style="margin:0 auto">All projects are custom-scoped. Pricing varies based on complexity, scope, and timeline. Drop us an email for an exact quote within 24 hours.</p>
+    </div>
+    <div class="pgrid reveal">
+
+      <div class="pc">
+        <div class="pplan">Starter</div>
+        <div class="pamt"><span class="pcur">$</span>100<span style="font-size:18px;color:var(--g400)"> – 999</span></div>
+        <div class="pperiod">Ideal for small businesses & MVPs</div>
+        <div class="pnote">📧 Email us for exact pricing → zalencatech@gmail.com</div>
+        <ul class="pfeats">
+          <li class="pf">AI Chatbot (1 platform)</li>
+          <li class="pf">Basic workflow automation</li>
+          <li class="pf">Landing page with AI integration</li>
+          <li class="pf">Social media setup</li>
+          <li class="pf">1 month post-launch support</li>
+          <li class="pf">Delivered in 7–14 days</li>
+        </ul>
+        <a href="mailto:zalencatech@gmail.com" class="pcta pco">Get a Quote</a>
+      </div>
+
+      <div class="pc feat">
+        <div class="fbadge">Most Popular</div>
+        <div class="pplan">Growth</div>
+        <div class="pamt"><span class="pcur">$</span>1k<span style="font-size:18px;color:var(--g400)"> – 5k</span></div>
+        <div class="pperiod">For scaling teams & serious projects</div>
+        <div class="pnote">📧 Custom quote → zalencatech@gmail.com</div>
+        <ul class="pfeats">
+          <li class="pf">Full AI system development</li>
+          <li class="pf">Multi-platform chatbots</li>
+          <li class="pf">Custom website + AI integration</li>
+          <li class="pf">E-commerce or SaaS MVP</li>
+          <li class="pf">Automated workflows (5+)</li>
+          <li class="pf">Social media management</li>
+          <li class="pf">Graphics & branding package</li>
+          <li class="pf">3 months priority support</li>
+        </ul>
+        <a href="mailto:zalencatech@gmail.com" class="pcta pcs">Get a Quote</a>
+      </div>
+
+      <div class="pc">
+        <div class="pplan">Enterprise</div>
+        <div class="pamt"><span class="pcur">$</span>5k<span style="font-size:18px;color:var(--g400)"> – 10k+</span></div>
+        <div class="pperiod">Full-scale transformation projects</div>
+        <div class="pnote">📧 Schedule a call → zalencatech@gmail.com</div>
+        <ul class="pfeats">
+          <li class="pf">Full business AI transformation</li>
+          <li class="pf">Custom SaaS / ERP / POS build</li>
+          <li class="pf">Dedicated AI engineering team</li>
+          <li class="pf">Unlimited automations & workflows</li>
+          <li class="pf">White-label solutions available</li>
+          <li class="pf">24/7 priority support</li>
+          <li class="pf">Staff AI training program</li>
+          <li class="pf">Continuous optimization retainer</li>
+        </ul>
+        <a href="mailto:zalencatech@gmail.com" class="pcta pco">Contact Us</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIALS (Shuffle Cards) ══ -->
+<section id="testimonials">
+  <div class="ctr">
+    <div class="testh reveal">
+      <div class="stag" style="justify-content:center">Client Reviews</div>
+      <h2>What Our Clients Say</h2>
+      <p class="sdesc" style="margin:0 auto">Drag the card to shuffle through client reviews — or click the button below.</p>
+    </div>
+    <div class="test-scene reveal">
+      <div class="cards-wrap" id="cards-wrap">
+        <!-- Cards injected by JS -->
+      </div>
+      <button class="shuffle-hint" onclick="shuffleCards()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 1l4 4-4 4M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 01-4 4H3"/></svg>
+        Shuffle Reviews
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FAQ ══ -->
+<section id="faq">
+  <div class="ctr">
+    <div class="faqh reveal"><div class="stag" style="justify-content:center">FAQ</div><h2>Frequently Asked</h2></div>
+    <div class="faqw reveal">
+      <div class="faqitem"><div class="faqq" onclick="toggleFaq(this)"><h4>How long does it take to build an AI system?</h4><div class="faqtog">+</div></div><div class="faqa">Timelines depend on complexity. A chatbot can be ready in 3–7 days. Full SaaS products or custom AI systems typically take 2–6 weeks. We always agree on a clear timeline before starting.</div></div>
+      <div class="faqitem"><div class="faqq" onclick="toggleFaq(this)"><h4>Do I need technical knowledge to work with you?</h4><div class="faqtog">+</div></div><div class="faqa">Not at all. We handle 100% of the technical work. You just need to know your business and goals — we explain everything in plain language throughout.</div></div>
+      <div class="faqitem"><div class="faqq" onclick="toggleFaq(this)"><h4>Can you integrate AI into my existing systems?</h4><div class="faqtog">+</div></div><div class="faqa">Absolutely. We integrate AI into Shopify, WordPress, Salesforce, HubSpot, or fully custom software. We connect and enhance what you already have without disruption.</div></div>
+      <div class="faqitem"><div class="faqq" onclick="toggleFaq(this)"><h4>Where are your offices?</h4><div class="faqtog">+</div></div><div class="faqa">We operate from three global offices — Scarborough, Canada; Dubai, UAE; and Pakistan — allowing us to serve clients across North America, the Middle East, and South Asia.</div></div>
+      <div class="faqitem"><div class="faqq" onclick="toggleFaq(this)"><h4>What happens after delivery?</h4><div class="faqtog">+</div></div><div class="faqa">We provide post-launch support, monitoring, and maintenance. We're your long-term AI partner — continuously optimizing and upgrading systems as your business scales.</div></div>
+      <div class="faqitem"><div class="faqq" onclick="toggleFaq(this)"><h4>How is pricing determined?</h4><div class="faqtog">+</div></div><div class="faqa">Every project is custom-scoped based on complexity, features, integrations, and timeline. Prices range from $100 for simple automations up to $10,000+ for full enterprise AI transformations. Email zalencatech@gmail.com for a free quote within 24 hours.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section id="contact">
+  <div class="corb"></div>
+  <div class="ctr">
+    <div class="cw2 reveal">
+      <div class="stag" style="justify-content:center">Get In Touch</div>
+      <h2>Ready to Build Something <em style="color:var(--cyan);font-style:normal">Extraordinary?</em></h2>
+      <p class="sdesc">Tell us about your project. We respond within 24 hours with a free consultation and custom proposal.</p>
+      <div class="offices">
+        <div class="office">🇨🇦 Scarborough, Canada</div>
+        <div class="office">🇦🇪 Dubai, UAE</div>
+        <div class="office">🇵🇰 Pakistan</div>
+        <div class="office" style="color:var(--cyan)">📧 zalencatech@gmail.com</div>
+      </div>
+      <form class="cform" onsubmit="handleForm(event)">
+        <div class="formr">
+          <input type="text" class="fi" placeholder="Your Name" required>
+          <input type="email" class="fi" placeholder="Email Address" required>
+        </div>
+        <div class="formr">
+          <input type="text" class="fi" placeholder="Company Name">
+          <input type="tel" class="fi" placeholder="Phone Number">
+        </div>
+        <select class="fsel">
+          <option value="">Select a Service</option>
+          <option>SaaS Product Development</option>
+          <option>AI Automation & Intelligent Agents</option>
+          <option>Machine Learning & Model Fine-Tuning</option>
+          <option>Web & Mobile App Development</option>
+          <option>Game Development</option>
+          <option>Digital Marketing & Growth</option>
+          <option>Chatbot Development</option>
+          <option>E-Commerce Platform</option>
+          <option>Management / POS System</option>
+          <option>Computer Vision</option>
+          <option>Full Business AI Transformation</option>
+          <option>Multiple / Custom</option>
+        </select>
+        <textarea class="fta" placeholder="Describe your project — goals, timeline, budget, specific requirements..."></textarea>
+        <button type="submit" class="fsub">
+          Send Message — Free Consultation
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="ctr">
+    <div class="fg">
+      <div class="fb">
+        <a href="#" class="nl">
+          <svg class="lsvg" viewBox="0 0 32 36" fill="none"><rect x="0" y="0" width="32" height="7.5" rx="3.75" fill="#1d4ed8"/><polygon points="23,7.5 32,7.5 9,28.5 0,28.5" fill="#1d4ed8" opacity=".85"/><rect x="0" y="28.5" width="32" height="7.5" rx="3.75" fill="#1d4ed8"/></svg>
+          <span class="lt">Zalenca <span>Tech</span></span>
+        </a>
+        <p>Engineering intelligent AI systems, automations, and digital platforms that transform how businesses operate. Serving globally from Canada, Dubai & Pakistan since 2022.</p>
+        <div class="fsocs">
+          <a class="fsl" href="https://www.linkedin.com/company/zalenca-technologies/" target="_blank" rel="noopener">in</a>
+          <a class="fsl" href="https://www.instagram.com/zalenca_technologies?igsh=ZzA1dm9mZzJ6emhh" target="_blank" rel="noopener">ig</a>
+          <a class="fsl" href="https://www.facebook.com/share/1GZhVu9YnT/" target="_blank" rel="noopener">fb</a>
+          <a class="fsl" href="mailto:zalencatech@gmail.com" title="Email">@</a>
+        </div>
+      </div>
+      <div class="fcol">
+        <h5>Services</h5>
+        <ul class="flinks">
+          <li><a href="#services">SaaS Development</a></li>
+          <li><a href="#services">AI Automation</a></li>
+          <li><a href="#services">Machine Learning</a></li>
+          <li><a href="#services">Web & Mobile Apps</a></li>
+          <li><a href="#services">Game Development</a></li>
+          <li><a href="#services">Digital Marketing</a></li>
+        </ul>
+      </div>
+      <div class="fcol">
+        <h5>Company</h5>
+        <ul class="flinks">
+          <li><a href="#leadership">Leadership</a></li>
+          <li><a href="#timeline">Our Process</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#industries">Industries</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#contact">Careers</a></li>
+        </ul>
+      </div>
+      <div class="fcol">
+        <h5>Contact</h5>
+        <ul class="flinks">
+          <li><a href="mailto:zalencatech@gmail.com">zalencatech@gmail.com</a></li>
+          <li><a href="#">🇨🇦 Scarborough, Canada</a></li>
+          <li><a href="#">🇦🇪 Dubai, UAE</a></li>
+          <li><a href="#">🇵🇰 Pakistan</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© 2025 Zalenca Technologies. All rights reserved.</span>
+      <span>Built with AI. Powered by Vision.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ CHATBOT FAB ══ -->
+<button class="cfab" onclick="toggleChat()" aria-label="Chat with Zalenca AI">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path d="M12 2C6.477 2 2 6.149 2 11.25c0 2.3.97 4.4 2.555 5.946L3.5 20.5l4.5-1.65A10.48 10.48 0 0012 19.5c5.523 0 10-4.149 10-8.25S17.523 2 12 2z" fill="white" opacity=".92"/>
+    <circle cx="8.5" cy="11" r="1.4" fill="#1d4ed8"/>
+    <circle cx="12" cy="11" r="1.4" fill="#1d4ed8"/>
+    <circle cx="15.5" cy="11" r="1.4" fill="#1d4ed8"/>
+  </svg>
+</button>
+
+<div class="cwin" id="cwin">
+  <div class="chatheader">
+    <div class="chtitle"><div class="chstat"></div><span>Zalenca AI Assistant</span></div>
+    <button class="chclose" onclick="toggleChat()">×</button>
+  </div>
+  <div class="cmsgs" id="cmsgs">
+    <div class="msg msg-b">👋 Hi! I'm Zalenca's AI assistant. Ask me anything about our services, pricing, past projects, or how to get started.</div>
+  </div>
+  <div class="cquick" id="cquick">
+    <button class="qb" onclick="quickAsk('What services do you offer?')">Services</button>
+    <button class="qb" onclick="quickAsk('How much does it cost?')">Pricing</button>
+    <button class="qb" onclick="quickAsk('How fast is delivery?')">Timeline</button>
+    <button class="qb" onclick="quickAsk('Where are you based?')">Locations</button>
+  </div>
+  <div class="cinput">
+    <input type="text" id="cinput" placeholder="Ask anything..." onkeydown="if(event.key==='Enter')sendMsg()">
+    <button class="csend" onclick="sendMsg()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+// ══ CURSOR ══
+const cur=document.getElementById('cur'),curR=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(loop)})();
+document.querySelectorAll('a,button,.sc,.ip,.projc,.faqq').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='16px';cur.style.height='16px';curR.style.width='44px';curR.style.height='44px';curR.style.opacity='.6'});
+  el.addEventListener('mouseleave',()=>{cur.style.width='9px';cur.style.height='9px';curR.style.width='32px';curR.style.height='32px';curR.style.opacity='1'});
+});
+
+// ══ NEURAL BG ══
+(function(){
+  const c=document.getElementById('nbg'),ctx=c.getContext('2d');
+  let W,H,nodes=[];
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;nodes=Array.from({length:90},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35}))}
+  resize();window.addEventListener('resize',resize);
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const dx=nodes[i].x-nodes[j].x,dy=nodes[i].y-nodes[j].y,d=Math.sqrt(dx*dx+dy*dy);
+        if(d<130){ctx.beginPath();ctx.strokeStyle=`rgba(29,78,216,${(1-d/130)*.35})`;ctx.lineWidth=.5;ctx.moveTo(nodes[i].x,nodes[i].y);ctx.lineTo(nodes[j].x,nodes[j].y);ctx.stroke()}
+      }
+    }
+    nodes.forEach(n=>{ctx.beginPath();ctx.arc(n.x,n.y,1.8,0,Math.PI*2);ctx.fillStyle='rgba(6,182,212,.55)';ctx.fill();n.x+=n.vx;n.y+=n.vy;if(n.x<0||n.x>W)n.vx*=-1;if(n.y<0||n.y>H)n.vy*=-1});
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ══ NAV SCROLL ══
+window.addEventListener('scroll',()=>{
+  document.getElementById('mainnav').style.background=window.scrollY>40?'rgba(1,4,9,.97)':'rgba(1,4,9,.88)';
+});
+
+// ══ SCROLL REVEAL ══
+const revs=document.querySelectorAll('.reveal');
+const ro=new IntersectionObserver(es=>{es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*55);ro.unobserve(e.target)}})},{threshold:.1});
+revs.forEach(el=>ro.observe(el));
+
+// ══ FAQ ══
+function toggleFaq(el){const it=el.parentElement,o=it.classList.contains('open');document.querySelectorAll('.faqitem').forEach(i=>i.classList.remove('open'));if(!o)it.classList.add('open')}
+
+// ══ FORM ══
+function handleForm(e){
+  e.preventDefault();const b=e.target.querySelector('.fsub');
+  b.innerHTML='✓ &nbsp;Sent! We\'ll respond within 24 hours.';b.style.background='#065f46';b.disabled=true;
+  setTimeout(()=>{b.innerHTML='Send Message — Free Consultation <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';b.style.background='';b.disabled=false;e.target.reset()},5000);
+}
+
+// ══ ORBITAL TIMELINE ══
+const orbData=[
+  {icon:'🔍',label:'Discovery',title:'Discovery & Strategy',text:'We deep-dive into your business goals, data landscape, and pain points to craft a custom AI roadmap.'},
+  {icon:'📐',label:'Architecture',title:'System Architecture',text:'Design the AI system structure, data pipelines, and integration layers before code is written.'},
+  {icon:'🏗️',label:'Build',title:'Build & Fine-Tune',text:'Develop, train, and fine-tune AI models on your proprietary data for maximum accuracy.'},
+  {icon:'🔗',label:'Integrate',title:'Systems Integration',text:'Connect your AI systems with existing tools, APIs, databases, and third-party platforms seamlessly.'},
+  {icon:'🧪',label:'Test',title:'Testing & QA',text:'Rigorous testing across edge cases, load scenarios, and real-world conditions before deployment.'},
+  {icon:'🚀',label:'Deploy',title:'Launch to Production',text:'Deploy to cloud infrastructure with monitoring, alerting, and auto-scaling configured.'},
+  {icon:'📊',label:'Monitor',title:'Monitor & Optimize',text:'Continuous performance monitoring, model retraining, and optimization to maximize ROI over time.'},
+  {icon:'🔄',label:'Evolve',title:'Continuous Evolution',text:'As your business grows, we evolve your AI systems — adding new capabilities and expanding scope.'},
+];
+let activeOrb=null;
+function buildOrbital(){
+  const wrap=document.getElementById('orb-nodes');wrap.innerHTML='';
+  const R=190;
+  orbData.forEach((d,i)=>{
+    const angle=(i/orbData.length)*Math.PI*2-(Math.PI/2);
+    const x=R*Math.cos(angle);const y=R*Math.sin(angle);
+    const div=document.createElement('div');
+    div.className='orb-node';div.id='on'+i;
+    div.style.cssText=`left:calc(50% + ${x}px);top:calc(50% + ${y}px);transform:translate(-50%,-50%)`;
+    div.innerHTML=`
+      <div class="on-dot">${d.icon}</div>
+      <div class="on-label">${d.label}</div>
+      <div class="on-card">
+        <div class="onc-title">${d.title}</div>
+        <div class="onc-text">${d.text}</div>
+        <span class="onc-badge onc-b-prog">Phase ${i+1}</span>
+      </div>`;
+    div.addEventListener('click',e=>{
+      e.stopPropagation();
+      if(activeOrb===i){div.classList.remove('active');activeOrb=null}
+      else{document.querySelectorAll('.orb-node').forEach(n=>n.classList.remove('active'));div.classList.add('active');activeOrb=i}
+    });
+    wrap.appendChild(div);
+  });
+  document.querySelector('.orbital-wrap').addEventListener('click',()=>{
+    document.querySelectorAll('.orb-node').forEach(n=>n.classList.remove('active'));activeOrb=null;
+  });
+}
+buildOrbital();
+
+// ══ TESTIMONIALS SHUFFLE ══
+const testimonials=[
+  {id:10,init:'AK',quote:'Zalenca built our AI customer support system in under 2 weeks. Ticket volume dropped 60% and customer satisfaction hit an all-time high.',author:'Ahmed Khan',role:'CEO · TechRetail PK'},
+  {id:20,init:'SR',quote:'The e-commerce platform with AI recommendations increased our average order value by 35% in the first month. Exceptional work.',author:'Sarah Rahman',role:'Founder · StyleHub'},
+  {id:30,init:'MB',quote:'We automated our entire invoicing and onboarding. What took 3 days now runs in minutes. An absolute game changer.',author:'Mohammad Bilal',role:'COO · LogiCorp'},
+  {id:40,init:'FH',quote:'Zalenca delivered our full SaaS recruitment platform in 6 weeks. The AI screening saves us 20+ hours per hiring cycle.',author:'Fatima Hassan',role:'Head of HR · NexaHire'},
+  {id:50,init:'RM',quote:'Their computer vision defect detection saved us $400K in the first quarter. The accuracy surpassed every vendor we tested.',author:'Raza Mahmood',role:'VP Ops · SteerTech'},
+  {id:60,init:'NK',quote:'We went from zero digital presence to a fully automated AI-powered business in 8 weeks. Truly transformative.',author:'Nadia Karim',role:'Founder · GreenLeaf Organics'},
+];
+let tPos=[0,1,2];
+let dragStart=0;
+function buildCards(){
+  const wrap=document.getElementById('cards-wrap');wrap.innerHTML='';
+  const posNames=['front','middle','back'];
+  tPos.forEach((ti,pi)=>{
+    const t=testimonials[ti%testimonials.length];
+    const card=document.createElement('div');
+    card.className='tcard '+posNames[pi];card.id='tc'+pi;
+    card.innerHTML=`
+      <div class="stars">★★★★★</div>
+      <div class="tcard-av" style="font-size:24px;font-family:var(--font-h);font-weight:800">${t.init}</div>
+      <div class="tcard-quote">${t.quote}</div>
+      <div class="tcard-author">${t.author}</div>
+      <div class="tcard-role">${t.role}</div>`;
+    if(pi===0){
+      card.addEventListener('mousedown',e=>{dragStart=e.clientX});
+      card.addEventListener('mouseup',e=>{if(dragStart-e.clientX>120)shuffleCards();dragStart=0});
+      card.addEventListener('touchstart',e=>{dragStart=e.touches[0].clientX},{passive:true});
+      card.addEventListener('touchend',e=>{if(dragStart-e.changedTouches[0].clientX>80)shuffleCards();dragStart=0});
+    }
+    wrap.appendChild(card);
+  });
+}
+function shuffleCards(){
+  tPos.push(tPos.shift());
+  buildCards();
+}
+buildCards();
+
+// ══ CHATBOT ══
+const KB={
+  service:"We offer 12 services: SaaS Development, AI Automation, Machine Learning & Fine-Tuning, Web & Mobile Apps, Game Development, Digital Marketing, Chatbots, E-Commerce, Computer Vision, POS & Management Systems, Graphics Design, and Full Business AI Transformation. Which interests you most?",
+  price:"Pricing ranges from $100 for simple automations up to $10,000+ for full enterprise AI transformations. Every project is custom-quoted. Email zalencatech@gmail.com for a free quote within 24 hours!",
+  time:"Chatbots: 3–7 days. Websites with AI: 1–2 weeks. SaaS or full AI systems: 2–6 weeks. Enterprise transformation: 6–12 weeks. We always set a clear timeline before starting.",
+  location:"We have 3 global offices: 🇨🇦 Scarborough, Canada · 🇦🇪 Dubai, UAE · 🇵🇰 Pakistan. We serve clients across North America, the Middle East, and South Asia. Email: zalencatech@gmail.com",
+  project:"2000+ projects delivered over 3 years! Highlights: AI invoice processing (87% workload reduction), ML demand forecasting (96.4% accuracy), medical AI chatbots (12K queries/day), computer vision QC ($400K saved Q1), and SaaS recruitment platforms. What industry are you in?",
+  team:"Zalenca was founded by Azwer Ullah (CEO & AI architect). Our team includes top ML engineers, AI researchers, full-stack developers, and product designers. Operating for 3 years with 2000+ successful projects globally.",
+  contact:"📧 zalencatech@gmail.com — we respond within 24 hours. You can also fill the contact form on this page. Connect on LinkedIn, Instagram, or Facebook! We're based in Canada, Dubai & Pakistan.",
+  chatbot:"Yes! Chatbot development is one of our core services. We use GPT-4, RAG, and NLP to build bots for web, WhatsApp, Telegram, and more — handling support, sales, lead capture, and internal ops. Want a quote?",
+  saas:"We design and build full SaaS products — multi-tenant architecture, subscription billing, analytics dashboards, API-first design. We've launched SaaS platforms in HR, healthcare, real estate, and more. MVP typically in 3–6 weeks.",
+  default:"Great question! For detailed project discussions, email zalencatech@gmail.com or fill the contact form — we'll respond within 24 hours with a free proposal. Anything specific I can answer right now?"
+};
+function getBotReply(m){
+  const t=m.toLowerCase();
+  if(t.match(/service|offer|build|what do/))return KB.service;
+  if(t.match(/price|cost|how much|budget|fee|pricing|range/))return KB.price;
+  if(t.match(/time|fast|long|deliver|days|week|quick/))return KB.time;
+  if(t.match(/where|location|office|country|based|canada|dubai|pakistan|scarborough/))return KB.location;
+  if(t.match(/project|portfolio|work|example|past|previous|case/))return KB.project;
+  if(t.match(/team|ceo|founder|azwer|who|staff|leader/))return KB.team;
+  if(t.match(/contact|email|reach|talk|call|connect/))return KB.contact;
+  if(t.match(/chatbot|bot|assistant|conversation/))return KB.chatbot;
+  if(t.match(/saas|software|product|platform|subscription/))return KB.saas;
+  return KB.default;
+}
+let chatOpen=false;
+function toggleChat(){chatOpen=!chatOpen;document.getElementById('cwin').classList.toggle('open',chatOpen)}
+function appendMsg(txt,role){
+  const d=document.createElement('div');d.className='msg msg-'+role;d.textContent=txt;
+  const m=document.getElementById('cmsgs');m.appendChild(d);m.scrollTop=m.scrollHeight;
+}
+function sendMsg(){
+  const inp=document.getElementById('cinput'),txt=inp.value.trim();if(!txt)return;
+  document.getElementById('cquick').style.display='none';
+  appendMsg(txt,'u');inp.value='';
+  const m=document.getElementById('cmsgs');
+  const typing=document.createElement('div');typing.className='typing';typing.innerHTML='<div class="tdots"><span></span><span></span><span></span></div>';
+  m.appendChild(typing);m.scrollTop=m.scrollHeight;
+  setTimeout(()=>{typing.remove();appendMsg(getBotReply(txt),'b')},900+Math.random()*500);
+}
+function quickAsk(q){document.getElementById('cinput').value=q;sendMsg()}
+</script>
+</body>
+</html>
